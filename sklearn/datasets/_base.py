@@ -1471,6 +1471,12 @@ def _fetch_remote(remote, dirname=None, n_retries=3, delay=1):
     file_path: Path
         Full path of the created file.
     """
+    parsed_url = urlparse(remote.url)
+    if parsed_url.scheme not in ("http", "https"):
+        raise ValueError(
+            f"Only http and https URL schemes are supported, got: {parsed_url.scheme!r}"
+        )
+
     if dirname is None:
         folder_path = Path(".")
     else:
